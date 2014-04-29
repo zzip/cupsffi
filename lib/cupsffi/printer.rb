@@ -114,7 +114,7 @@ class CupsPrinter
     CupsJob.new(job_id, self)
   end
 
-  def print_data(data, mime_type, options = {})
+  def print_data(data, mime_type, title = 'data job', options = {})
     options_pointer = nil
     num_options = 0
     unless options.empty?
@@ -126,7 +126,7 @@ class CupsPrinter
       options_pointer = options_pointer.get_pointer(0)
     end
 
-    job_id = CupsFFI::cupsCreateJob(@connection, @name, 'data job', num_options, options_pointer)
+    job_id = CupsFFI::cupsCreateJob(@connection, @name, title, num_options, options_pointer)
     if job_id == 0
       last_error = CupsFFI::cupsLastErrorString()
       CupsFFI::cupsFreeOptions(num_options, options_pointer) unless options_pointer.nil?
